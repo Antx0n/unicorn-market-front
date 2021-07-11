@@ -1,0 +1,115 @@
+    openapi: 3.0.3
+    info:
+      title: Unicorn Price Calculator
+      description: This service returns the price of a healthy unicorn in shillings and allows to manage the offering of unicorns 
+      version: 0.1.0
+
+    tags:
+      - name: "Unicorn Market"
+      - name: "Antxon's Unicorn Offering"
+      
+#############################################################
+#    API services
+#############################################################      
+      
+    paths:
+      /market/price:
+        get:
+          summary: Returns the current price of a unicorn.
+          description: Based on combinaison of the name's hashcode and a fraction of currentTimeMillis
+          parameters:
+            - in: query
+              name: uniName
+              schema:
+                type: string
+              description: Unicorn's name
+          tags: 
+            - "Unicorn Market"
+          responses:
+            '200':   
+              description: Value in unicorn (old scottisch currency => mapped to KES) 
+              content:
+                application/json:
+                  schema: 
+                    type: integer
+                    example: 8781757
+            '404':
+              description: Not Found
+            '500':
+              description: Internal Server Error
+          
+      /unicorn/offers:
+        get:
+          summary: Returns all the Unicorns currently offered
+          description: Each unicron as a unique name
+          tags: 
+            - "Antxon's Unicorn Offering"
+          responses:
+            '200':
+              description: List of unicorns
+              content:
+                application/json:
+                  schema:
+#Weird behavior, use of brackets somehow compulsory
+                    type: array
+                    items: {
+                      '$ref':'#/components/schemas/Unicorn'
+                    }
+            '404':
+              description: Not Found
+            '500':
+              description: Internal Server Error
+      /unicorn/offer:      
+        post:
+          summary: Creates an offering for a new unicorn.
+          description: As a unicorn is unique, this equivalent to creating a new product
+          tags: 
+            - "Antxon's Unicorn Offering"
+          responses:
+            '201':
+              description: Created
+            '404':
+              description: Not Found
+            '500':
+              description: Internal Server Error
+            
+      /unicorn/offer/{unicorn_name}:
+        parameters:
+          - name: 'unicorn_name'
+            in: path
+            required: true
+            description: As unicorns are unique, their name are somehow ids
+            schema:
+              type: string
+            example: 'Doudou'
+        patch:
+          summary: Updates the price of an existing unicorn
+          description: As a unicorn is unique, this equivalent to creating a new product
+          tags: 
+            - "Antxon's Unicorn Offering"
+          responses:
+            '200':
+              description: OK
+            '404':
+              description: Not Found
+            '500':
+              description: Internal Server Error
+              
+              
+    components:
+#############################################################
+#    API specific Schemas
+#############################################################
+      schemas:  
+        Unicorn:
+          type: object
+          properties:
+            name:
+              type: string
+              description: A unicorn name is unique => id
+            color:
+              type: string
+            basePrice:
+              type: number
+              format: integer
+              description: Base price in Schilling (KES)
