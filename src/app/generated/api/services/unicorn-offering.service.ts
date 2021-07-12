@@ -14,7 +14,7 @@ import { Unicorn } from '../models/unicorn';
 @Injectable({
   providedIn: 'root',
 })
-export class AntxonSUnicornOfferingService extends BaseService {
+export class UnicornOfferingService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -23,9 +23,9 @@ export class AntxonSUnicornOfferingService extends BaseService {
   }
 
   /**
-   * Path part for operation unicornOffersGet
+   * Path part for operation getOffers
    */
-  static readonly UnicornOffersGetPath = '/unicorn/offers';
+  static readonly GetOffersPath = '/unicorn/offers';
 
   /**
    * Returns all the Unicorns currently offered.
@@ -33,14 +33,14 @@ export class AntxonSUnicornOfferingService extends BaseService {
    * Each unicron as a unique name
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `unicornOffersGet()` instead.
+   * To access only the response body, use `getOffers()` instead.
    *
    * This method doesn't expect any request body.
    */
-  unicornOffersGet$Response(params?: {
+  getOffers$Response(params?: {
   }): Observable<StrictHttpResponse<Array<Unicorn>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AntxonSUnicornOfferingService.UnicornOffersGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, UnicornOfferingService.GetOffersPath, 'get');
     if (params) {
     }
 
@@ -61,22 +61,22 @@ export class AntxonSUnicornOfferingService extends BaseService {
    * Each unicron as a unique name
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `unicornOffersGet$Response()` instead.
+   * To access the full response (for headers, for example), `getOffers$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  unicornOffersGet(params?: {
+  getOffers(params?: {
   }): Observable<Array<Unicorn>> {
 
-    return this.unicornOffersGet$Response(params).pipe(
+    return this.getOffers$Response(params).pipe(
       map((r: StrictHttpResponse<Array<Unicorn>>) => r.body as Array<Unicorn>)
     );
   }
 
   /**
-   * Path part for operation unicornOfferPost
+   * Path part for operation postOffer
    */
-  static readonly UnicornOfferPostPath = '/unicorn/offer';
+  static readonly PostOfferPath = '/unicorn/offer';
 
   /**
    * Creates an offering for a new unicorn.
@@ -84,14 +84,14 @@ export class AntxonSUnicornOfferingService extends BaseService {
    * As a unicorn is unique, this equivalent to creating a new product
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `unicornOfferPost()` instead.
+   * To access only the response body, use `postOffer()` instead.
    *
    * This method doesn't expect any request body.
    */
-  unicornOfferPost$Response(params?: {
+  postOffer$Response(params?: {
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AntxonSUnicornOfferingService.UnicornOfferPostPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, UnicornOfferingService.PostOfferPath, 'post');
     if (params) {
     }
 
@@ -112,22 +112,22 @@ export class AntxonSUnicornOfferingService extends BaseService {
    * As a unicorn is unique, this equivalent to creating a new product
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `unicornOfferPost$Response()` instead.
+   * To access the full response (for headers, for example), `postOffer$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  unicornOfferPost(params?: {
+  postOffer(params?: {
   }): Observable<void> {
 
-    return this.unicornOfferPost$Response(params).pipe(
+    return this.postOffer$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation unicornOfferUnicornNamePatch
+   * Path part for operation patchOffer
    */
-  static readonly UnicornOfferUnicornNamePatchPath = '/unicorn/offer/{unicorn_name}';
+  static readonly PatchOfferPath = '/unicorn/offer/{unicorn_name}';
 
   /**
    * Updates the price of an existing unicorn.
@@ -135,11 +135,11 @@ export class AntxonSUnicornOfferingService extends BaseService {
    * As a unicorn is unique, this equivalent to creating a new product
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `unicornOfferUnicornNamePatch()` instead.
+   * To access only the response body, use `patchOffer()` instead.
    *
    * This method doesn't expect any request body.
    */
-  unicornOfferUnicornNamePatch$Response(params: {
+  patchOffer$Response(params: {
 
     /**
      * As unicorns are unique, their name are somehow ids
@@ -147,7 +147,7 @@ export class AntxonSUnicornOfferingService extends BaseService {
     unicorn_name: string;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AntxonSUnicornOfferingService.UnicornOfferUnicornNamePatchPath, 'patch');
+    const rb = new RequestBuilder(this.rootUrl, UnicornOfferingService.PatchOfferPath, 'patch');
     if (params) {
       rb.path('unicorn_name', params.unicorn_name, {});
     }
@@ -169,11 +169,11 @@ export class AntxonSUnicornOfferingService extends BaseService {
    * As a unicorn is unique, this equivalent to creating a new product
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `unicornOfferUnicornNamePatch$Response()` instead.
+   * To access the full response (for headers, for example), `patchOffer$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  unicornOfferUnicornNamePatch(params: {
+  patchOffer(params: {
 
     /**
      * As unicorns are unique, their name are somehow ids
@@ -181,7 +181,7 @@ export class AntxonSUnicornOfferingService extends BaseService {
     unicorn_name: string;
   }): Observable<void> {
 
-    return this.unicornOfferUnicornNamePatch$Response(params).pipe(
+    return this.patchOffer$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

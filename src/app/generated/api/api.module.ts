@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { UnicornMarketService } from './services/unicorn-market.service';
-import { AntxonSUnicornOfferingService } from './services/antxon-s-unicorn-offering.service';
+import { UnicornOfferingService } from './services/unicorn-offering.service';
 
 /**
  * Module that provides all services and configuration.
@@ -16,7 +16,7 @@ import { AntxonSUnicornOfferingService } from './services/antxon-s-unicorn-offer
   declarations: [],
   providers: [
     UnicornMarketService,
-    AntxonSUnicornOfferingService,
+    UnicornOfferingService,
     ApiConfiguration
   ],
 })

@@ -9,6 +9,11 @@ export interface Unicorn {
   color?: string;
 
   /**
+   * A brief description of the characteristics of the Unicorn
+   */
+  description?: string;
+
+  /**
    * A unicorn name is unique => id
    */
   name?: string;

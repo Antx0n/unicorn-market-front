@@ -22,9 +22,9 @@ export class UnicornMarketService extends BaseService {
   }
 
   /**
-   * Path part for operation marketPriceGet
+   * Path part for operation getMarketPrice
    */
-  static readonly MarketPriceGetPath = '/market/price';
+  static readonly GetMarketPricePath = '/market/price';
 
   /**
    * Returns the current price of a unicorn.
@@ -32,11 +32,11 @@ export class UnicornMarketService extends BaseService {
    * Based on combinaison of the name's hashcode and a fraction of currentTimeMillis
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `marketPriceGet()` instead.
+   * To access only the response body, use `getMarketPrice()` instead.
    *
    * This method doesn't expect any request body.
    */
-  marketPriceGet$Response(params?: {
+  getMarketPrice$Response(params?: {
 
     /**
      * Unicorn&#x27;s name
@@ -44,7 +44,7 @@ export class UnicornMarketService extends BaseService {
     uniName?: string;
   }): Observable<StrictHttpResponse<number>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UnicornMarketService.MarketPriceGetPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, UnicornMarketService.GetMarketPricePath, 'get');
     if (params) {
       rb.query('uniName', params.uniName, {});
     }
@@ -66,11 +66,11 @@ export class UnicornMarketService extends BaseService {
    * Based on combinaison of the name's hashcode and a fraction of currentTimeMillis
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `marketPriceGet$Response()` instead.
+   * To access the full response (for headers, for example), `getMarketPrice$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  marketPriceGet(params?: {
+  getMarketPrice(params?: {
 
     /**
      * Unicorn&#x27;s name
@@ -78,7 +78,7 @@ export class UnicornMarketService extends BaseService {
     uniName?: string;
   }): Observable<number> {
 
-    return this.marketPriceGet$Response(params).pipe(
+    return this.getMarketPrice$Response(params).pipe(
       map((r: StrictHttpResponse<number>) => r.body as number)
     );
   }

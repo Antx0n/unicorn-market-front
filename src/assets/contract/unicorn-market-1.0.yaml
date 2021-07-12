@@ -2,11 +2,12 @@
     info:
       title: Unicorn Price Calculator
       description: This service returns the price of a healthy unicorn in shillings and allows to manage the offering of unicorns 
-      version: 0.1.0
-
+      version: 0.1.3
+    servers: 
+      - url: http://localhost:8080/api/v1
     tags:
       - name: "Unicorn Market"
-      - name: "Antxon's Unicorn Offering"
+      - name: "Unicorn Offering"
       
 #############################################################
 #    API services
@@ -17,6 +18,7 @@
         get:
           summary: Returns the current price of a unicorn.
           description: Based on combinaison of the name's hashcode and a fraction of currentTimeMillis
+          operationId: getMarketPrice
           parameters:
             - in: query
               name: uniName
@@ -42,8 +44,9 @@
         get:
           summary: Returns all the Unicorns currently offered
           description: Each unicron as a unique name
+          operationId: getOffers
           tags: 
-            - "Antxon's Unicorn Offering"
+            - "Unicorn Offering"
           responses:
             '200':
               description: List of unicorns
@@ -63,8 +66,9 @@
         post:
           summary: Creates an offering for a new unicorn.
           description: As a unicorn is unique, this equivalent to creating a new product
+          operationId: postOffer
           tags: 
-            - "Antxon's Unicorn Offering"
+            - "Unicorn Offering"
           responses:
             '201':
               description: Created
@@ -85,8 +89,9 @@
         patch:
           summary: Updates the price of an existing unicorn
           description: As a unicorn is unique, this equivalent to creating a new product
+          operationId: patchOffer
           tags: 
-            - "Antxon's Unicorn Offering"
+            - "Unicorn Offering"
           responses:
             '200':
               description: OK
@@ -106,7 +111,11 @@
           properties:
             name:
               type: string
+              required: true
               description: A unicorn name is unique => id
+            description:
+              type: string
+              description: A brief description of the characteristics of the Unicorn
             color:
               type: string
             basePrice:

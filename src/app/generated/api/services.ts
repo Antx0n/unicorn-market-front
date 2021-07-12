@@ -1,2 +1,2 @@
 export { UnicornMarketService } from './services/unicorn-market.service';
-export { AntxonSUnicornOfferingService } from './services/antxon-s-unicorn-offering.service';
+export { UnicornOfferingService } from './services/unicorn-offering.service';

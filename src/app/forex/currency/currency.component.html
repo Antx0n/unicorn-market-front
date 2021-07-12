@@ -1,0 +1,8 @@
+<mat-form-field *ngIf="currencies" appearance="fill">
+    <mat-label>Currency</mat-label>
+    <mat-select (selectionChange) = "onSelectedCurrency($event)">
+      <mat-option *ngFor="let cur of currencies" [value]="cur">
+        {{cur}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
