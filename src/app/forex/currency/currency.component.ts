@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Currency } from './currency.model';
 import { CurrencyService } from './currency.service';
 
 @Component({
@@ -7,23 +8,22 @@ import { CurrencyService } from './currency.service';
   styleUrls: ['./currency.component.css'],
 })
 export class CurrencyComponent implements OnInit {
-  constructor(
-    private currencyService : CurrencyService
-  ) {}
-  currencies: string[] = ['EUR', 'USD', 'GBP', 'JPY', 'CHF', 'CAD'];
+  constructor(private currencyService: CurrencyService) {}
+  readonly currencies: string[] = ['EUR', 'USD', 'GBP', 'JPY', 'CHF', 'CAD'];
   exchangeRates: Map<string, number> = new Map();
 
   ngOnInit(): void {
     for (let cur of this.currencies) {
-      console.log(cur);
-      this.exchangeRates[cur] = Math.random();
+      this.currencyService.getExchangeRate(cur).subscribe((xr) => {
+        this.exchangeRates[xr.currency] = xr.rate;
+      });
     }
-    console.log('Exchange rates map: ', this.exchangeRates);
   }
 
-  onSelectedCurrency(ob){
-    let currency = ob.value
-    console.log('Objet a balancer: ', currency, this.exchangeRates[currency])
-    this.currencyService.onSelectCurrency([currency, this.exchangeRates[currency]])
+  onSelectedCurrency(ob) {
+    let currency = ob.value;
+    this.currencyService.onSelectCurrency(
+      new Currency(currency, this.exchangeRates[currency])
+    );
   }
 }

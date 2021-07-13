@@ -1,22 +1,26 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { Currency } from './currency.model';
 
-@Injectable
-({
-    providedIn: 'root'
+@Injectable({
+  providedIn: 'root',
 })
 export class CurrencyService {
-    
-    private $selectedCurrency: Subject<[string,number]> = new Subject<[string,number]>();
+  private CURRENCY_API_SERVER = 'http://localhost:9090/api/v1/currency/';
+  private $selectedCurrency: Subject<Currency> = new Subject<Currency>();
 
-    constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
-    onSelectCurrency(cur: [string,number]){
-        return this.$selectedCurrency.next(cur)
-    }
+  onSelectCurrency(cur: Currency) {
+    return this.$selectedCurrency.next(cur);
+  }
 
-    getSelectedCurencyObs(): Observable<object> {
-        return this.$selectedCurrency.asObservable();
-    }
+  getSelectedCurencyObs(): Observable<Currency> {
+    return this.$selectedCurrency.asObservable();
+  }
 
+  getExchangeRate(cur: string): Observable<any> {
+    return this.httpClient.get(this.CURRENCY_API_SERVER.concat(cur));
+  }
 }
