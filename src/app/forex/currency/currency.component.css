@@ -1,0 +1,9 @@
+.currency-converter {
+    display: flex;  
+    justify-content: space-between;
+    align-items: flex-start;  
+}
+.exRate {
+    margin-right: 15px;
+    margin-top: 10px;
+}

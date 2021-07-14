@@ -2,7 +2,7 @@
     info:
       title: Unicorn Price Calculator
       description: This service returns the price of a healthy unicorn in shillings and allows to manage the offering of unicorns 
-      version: 0.1.3
+      version: 0.2.1
     servers: 
       - url: http://localhost:8080/api/v1
     tags:
@@ -92,9 +92,25 @@
           operationId: patchOffer
           tags: 
             - "Unicorn Offering"
+          requestBody:
+            description: New basePrice
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    basePrice:
+                      type: integer
+                example: { basePrice : 6424242 }
           responses:
             '200':
-              description: OK
+              description: Updated unicorn
+              content:
+                application/json:
+                  schema: {
+                    '$ref' :'#/components/schemas/Unicorn'
+                  }
             '404':
               description: Not Found
             '500':
@@ -108,10 +124,11 @@
       schemas:  
         Unicorn:
           type: object
+          required:
+            - name
           properties:
             name:
               type: string
-              required: true
               description: A unicorn name is unique => id
             description:
               type: string

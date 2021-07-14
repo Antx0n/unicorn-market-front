@@ -1,19 +1,34 @@
-<mat-card *ngIf="currentUnicorn">
+<mat-card *ngIf="currentUnicorn" >
 
-    <div layout="row">
+    <div layout="row" [style.background]='currentUnicorn.color'>
         <div flex>{{currentUnicorn.name}}</div>
     </div>
     <div layout="column">
         <div flex>{{currentUnicorn.description}}</div>
-        <div flex>{{currentUnicorn.color}}</div>
     </div>
     <div layout="row">
+        <fieldset>
+        <legend>Base price</legend>
         <div *ngIf="currentUnicorn.basePrice" flex>{{currentUnicorn.basePrice | currency:'KSh '}}</div>
+    </fieldset>
+    <fieldset>
+        <legend>Converted price</legend>
         <div *ngIf="currency && exchangedValue"flex> {{exchangedValue | currency:currency}} </div>
-
+    </fieldset>
     </div>
-
-    <button (click)="updatePrice()" mat-mini-fab aria-label="Update price">
+    <div class="container">
+        <span>Get price:</span>
+    <button (click)="getPrice()" mat-mini-fab aria-label="Get price">
         <mat-icon>cached</mat-icon>
       </button>
+      <span></span>
+      <div *ngIf="currentUnicorn.basePrice">
+               <span>Persist price:</span>
+      <button (click)="persistPrice()" mat-mini-fab aria-label="Persist price">
+        <mat-icon>vertical_align_bottom</mat-icon>
+      </button>
+      </div>
+ 
+    </div>
+
 </mat-card>

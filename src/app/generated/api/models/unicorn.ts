@@ -16,5 +16,5 @@ export interface Unicorn {
   /**
    * A unicorn name is unique => id
    */
-  name?: string;
+  name: string;
 }

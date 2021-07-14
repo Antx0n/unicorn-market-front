@@ -137,7 +137,7 @@ export class UnicornOfferingService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `patchOffer()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   patchOffer$Response(params: {
 
@@ -145,20 +145,26 @@ export class UnicornOfferingService extends BaseService {
      * As unicorns are unique, their name are somehow ids
      */
     unicorn_name: string;
-  }): Observable<StrictHttpResponse<void>> {
+
+    /**
+     * New basePrice
+     */
+    body: { 'basePrice'?: number }
+  }): Observable<StrictHttpResponse<Unicorn>> {
 
     const rb = new RequestBuilder(this.rootUrl, UnicornOfferingService.PatchOfferPath, 'patch');
     if (params) {
       rb.path('unicorn_name', params.unicorn_name, {});
+      rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
+      responseType: 'json',
+      accept: 'application/json'
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<Unicorn>;
       })
     );
   }
@@ -171,7 +177,7 @@ export class UnicornOfferingService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `patchOffer$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   patchOffer(params: {
 
@@ -179,10 +185,15 @@ export class UnicornOfferingService extends BaseService {
      * As unicorns are unique, their name are somehow ids
      */
     unicorn_name: string;
-  }): Observable<void> {
+
+    /**
+     * New basePrice
+     */
+    body: { 'basePrice'?: number }
+  }): Observable<Unicorn> {
 
     return this.patchOffer$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+      map((r: StrictHttpResponse<Unicorn>) => r.body as Unicorn)
     );
   }
 

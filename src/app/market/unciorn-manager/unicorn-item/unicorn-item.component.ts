@@ -2,6 +2,7 @@ import { Unicorn } from 'src/app/generated/api/models/unicorn';
 import { Component, Input, OnInit } from '@angular/core';
 import { UnicornMarketService } from 'src/app/generated/api/services/unicorn-market.service';
 import { CurrencyService } from 'src/app/forex/currency/currency.service';
+import { UnicornOfferingService } from 'src/app/generated/api/services/unicorn-offering.service';
 
 @Component({
   selector: 'app-unicorn-item',
@@ -11,7 +12,8 @@ import { CurrencyService } from 'src/app/forex/currency/currency.service';
 export class UnicornItemComponent implements OnInit {
   constructor(
     private priceService: UnicornMarketService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private unicornService: UnicornOfferingService
   ) {}
   @Input() currentUnicorn: Unicorn;
   currency: string;
@@ -20,23 +22,31 @@ export class UnicornItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.currencyService.getSelectedCurencyObs().subscribe((cur) => {
+      this.currency = cur.currency;
+      this.exchangeRate = cur.rate;
       if (this.currentUnicorn.basePrice) {
-        this.currency = cur.currency;
-        this.exchangeRate = cur.rate;
         this.convert();
       }
     });
   }
 
-  updatePrice() {
+  getPrice() {
     this.priceService
       .getMarketPrice({ uniName: this.currentUnicorn.name })
-      .subscribe((generatedPrice) => {
+      .subscribe(generatedPrice => {
         this.currentUnicorn.basePrice = generatedPrice;
         if (this.currency && this.exchangeRate) {
           this.convert();
         }
       });
+  }
+
+  persistPrice() {
+    this.unicornService.patchOffer({
+      'unicorn_name' : this.currentUnicorn.name,
+      'body': {'basePrice': this.currentUnicorn.basePrice}
+    }).subscribe( upadtedUni => this.currentUnicorn = upadtedUni)
+
   }
 
   convert(): void {

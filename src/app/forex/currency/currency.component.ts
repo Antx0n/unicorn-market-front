@@ -11,6 +11,7 @@ export class CurrencyComponent implements OnInit {
   constructor(private currencyService: CurrencyService) {}
   readonly currencies: string[] = ['EUR', 'USD', 'GBP', 'JPY', 'CHF', 'CAD'];
   exchangeRates: Map<string, number> = new Map();
+  rate: number;
 
   ngOnInit(): void {
     for (let cur of this.currencies) {
@@ -22,8 +23,9 @@ export class CurrencyComponent implements OnInit {
 
   onSelectedCurrency(ob) {
     let currency = ob.value;
-    this.currencyService.onSelectCurrency(
-      new Currency(currency, this.exchangeRates[currency])
+    this.rate = this.exchangeRates[currency]
+    this.currencyService.onSelectCurrency(      
+      new Currency(currency,this.rate )      
     );
   }
 }
